@@ -12,8 +12,8 @@ public class LookupDto
     {
         public Mapping()
         {
-            CreateMap<TodoList, LookupDto>();
-            CreateMap<TodoItem, LookupDto>();
+            CreateMap<Movie, LookupDto>();
+            CreateMap<FilmCrew, LookupDto>();
         }
     }
 }

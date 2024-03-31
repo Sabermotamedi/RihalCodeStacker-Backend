@@ -16,7 +16,7 @@ public class TodoItemBriefDto
     {
         public Mapping()
         {
-            CreateMap<TodoItem, TodoItemBriefDto>();
+            CreateMap<FilmCrew, TodoItemBriefDto>();
         }
     }
 }

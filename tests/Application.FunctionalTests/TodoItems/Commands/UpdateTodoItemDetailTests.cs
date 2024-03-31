@@ -39,12 +39,12 @@ public class UpdateTodoItemDetailTests : BaseTestFixture
             Id = itemId,
             ListId = listId,
             Note = "This is the note.",
-            Priority = PriorityLevel.High
+            Priority = FlmCrewType.High
         };
 
         await SendAsync(command);
 
-        var item = await FindAsync<TodoItem>(itemId);
+        var item = await FindAsync<FilmCrew>(itemId);
 
         item.Should().NotBeNull();
         item!.ListId.Should().Be(command.ListId);

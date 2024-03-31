@@ -40,7 +40,7 @@ public class UpdateTodoItemTests : BaseTestFixture
 
         await SendAsync(command);
 
-        var item = await FindAsync<TodoItem>(itemId);
+        var item = await FindAsync<FilmCrew>(itemId);
 
         item.Should().NotBeNull();
         item!.Title.Should().Be(command.Title);

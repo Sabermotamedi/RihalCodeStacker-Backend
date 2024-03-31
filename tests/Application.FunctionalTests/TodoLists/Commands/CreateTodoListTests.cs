@@ -44,7 +44,7 @@ public class CreateTodoListTests : BaseTestFixture
 
         var id = await SendAsync(command);
 
-        var list = await FindAsync<TodoList>(id);
+        var list = await FindAsync<Movie>(id);
 
         list.Should().NotBeNull();
         list!.Title.Should().Be(command.Title);

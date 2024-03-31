@@ -23,8 +23,8 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
     {
         return new TodosVm
         {
-            PriorityLevels = Enum.GetValues(typeof(PriorityLevel))
-                .Cast<PriorityLevel>()
+            PriorityLevels = Enum.GetValues(typeof(FlmCrewType))
+                .Cast<FlmCrewType>()
                 .Select(p => new LookupDto { Id = (int)p, Title = p.ToString() })
                 .ToList(),
 

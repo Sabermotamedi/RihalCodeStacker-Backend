@@ -2,10 +2,10 @@
 
 public class TodoItemCompletedEvent : BaseEvent
 {
-    public TodoItemCompletedEvent(TodoItem item)
+    public TodoItemCompletedEvent(FilmCrew item)
     {
         Item = item;
     }
 
-    public TodoItem Item { get; }
+    public FilmCrew Item { get; }
 }

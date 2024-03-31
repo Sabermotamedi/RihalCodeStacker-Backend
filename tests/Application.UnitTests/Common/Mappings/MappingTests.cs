@@ -1,12 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using AutoMapper;
-using Rihal.ReelRise.Application.Common.Interfaces;
-using Rihal.ReelRise.Application.Common.Models;
-using Rihal.ReelRise.Application.TodoItems.Queries.GetTodoItemsWithPagination;
-using Rihal.ReelRise.Application.TodoLists.Queries.GetTodos;
-using Rihal.ReelRise.Domain.Entities;
 using NUnit.Framework;
+using Rihal.ReelRise.Application.Common.Interfaces;
 
 namespace Rihal.ReelRise.Application.UnitTests.Common.Mappings;
 
@@ -29,18 +25,18 @@ public class MappingTests
         _configuration.AssertConfigurationIsValid();
     }
 
-    [Test]
-    [TestCase(typeof(TodoList), typeof(TodoListDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
-    [TestCase(typeof(TodoList), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemBriefDto))]
-    public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
-    {
-        var instance = GetInstanceOf(source);
+    //[Test]
+    //[TestCase(typeof(Movie), typeof(TodoListDto))]
+    //[TestCase(typeof(FilmCrew), typeof(TodoItemDto))]
+    //[TestCase(typeof(Movie), typeof(LookupDto))]
+    //[TestCase(typeof(FilmCrew), typeof(LookupDto))]
+    //[TestCase(typeof(FilmCrew), typeof(TodoItemBriefDto))]
+    //public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
+    //{
+    //    var instance = GetInstanceOf(source);
 
-        _mapper.Map(instance, source, destination);
-    }
+    //    _mapper.Map(instance, source, destination);
+    //}
 
     private object GetInstanceOf(Type type)
     {

@@ -16,4 +16,8 @@
         <PackageReference Include="coverlet.collector" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
