@@ -15,6 +15,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<FilmCrew> FilmCrews => Set<FilmCrew>();
 
+    public DbSet<MovieRate> MovieRates => Set<MovieRate>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

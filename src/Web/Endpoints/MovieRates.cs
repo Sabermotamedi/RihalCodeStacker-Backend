@@ -1,15 +1,15 @@
-﻿using Rihal.ReelRise.Application.Common.Models;
+﻿using Rihal.ReelRise.Application.MovieRates.Commands.CreateMovieRate;
 
 namespace Rihal.ReelRise.Web.Endpoints;
 
-public class TodoItems : EndpointGroupBase
+public class MovieRates : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization();
+            .RequireAuthorization()
             //.MapGet(GetTodoItemsWithPagination)
-            //.MapPost(CreateTodoItem)
+            .MapPost(CreateMovieRate);
             //.MapPut(UpdateTodoItem, "{id}")
             //.MapPut(UpdateTodoItemDetail, "UpdateDetail/{id}")
             //.MapDelete(DeleteTodoItem, "{id}");
@@ -20,10 +20,10 @@ public class TodoItems : EndpointGroupBase
     //    return sender.Send(query);
     //}
 
-    //public Task<int> CreateTodoItem(ISender sender, CreateTodoItemCommand command)
-    //{
-    //    return sender.Send(command);
-    //}
+    public Task<int> CreateMovieRate(ISender sender, CreateMovieRateCommand command)
+    {      
+        return sender.Send(command);
+    }
 
     //public async Task<IResult> UpdateTodoItem(ISender sender, int id, UpdateTodoItemCommand command)
     //{

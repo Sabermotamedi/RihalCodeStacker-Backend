@@ -8,5 +8,7 @@ public interface IApplicationDbContext
 
     DbSet<FilmCrew> FilmCrews { get; }
 
+    DbSet<MovieRate> MovieRates { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

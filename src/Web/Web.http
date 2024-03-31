@@ -3,7 +3,7 @@
 
 @Email=administrator@localhost
 @Password=Administrator1!
-@BearerToken=<YourToken>
+@BearerToken=CfDJ8KDP98tlKjNGkk48ugmxKJTDwvK4T4yCIsF9Z0sMIqQoYCHpV-p4Ld-7CMpoV16NvbZMx6a84m3asoC6UH1LhT2nrPMyQSRve6BdwQsrZswDWvQAfSer-kVbbxGN7-Miw9dXbGPyn2eARFZbet6FXxNlKr6SbgutFAG-zBg-UJQJDp4xEOD4JLRGC7XiHnyY2okDtSEUaTh3_AkHViWtORA7PMFVUj9-ImJY1U6seuWfpVLr6Nrq9wB8XK9LdsgBN54Ho5rHZcqWYRzVlBcYZXHjM4aPrHmjiQGXoh3TuwLsou7GNKsKayqxtCR8kcm1-TGglulhI5IrIXsMkSM24q8c2C8B-_VcB81Er_p-fYj0IGDDEUoB73BppIGtpNJG8Q8hdLg7ZkKh0Rylh4rpRZ4xU4ecIpD6RmQbz2h6VNlVsX_w_GUNRkTg7TbY-ql9zNGykX1WGJ9zRKQpnfQPPOiAn388axf5Icxl7X52o90k6WNC2xHpA5SQ8Q1tKfppDzDT9_WCTtkmvkW8qs6NK8pLSUtWKOPOYoamc2ENO-fdo8XK-B8FaACS5TiC1zFWtpyiRvooWcB1vAC6hlHbh3G5XEo7ukKXgk3dFLo-Kji_h-OSfhJHcuLqRg8zxPaMMz6aDQaoKsflzKYANn_B8I0Q8rBFvlPRcHT3NMNaTlXSjyv5e9OX2nVftzrqTWAfCuQBEeS-dnLa_8OrKns7XJRw2SFhFuQusISohcoqMVrI5jncaOJaPEHmtGbPeBlEcEBf8nVk0cXHAxdGhFUEtiHtDbB6DV9_T23v3kYQbbyiyOeeTYnc25cr8NaTSrcIHg
 
 # POST Users Register
 POST {{Web_HostAddress}}/api/Users/Register
@@ -91,14 +91,14 @@ Authorization: Bearer {{BearerToken}}
 ###
 
 # POST TodoItems
-POST {{Web_HostAddress}}/api/TodoItems
+POST {{Web_HostAddress}}/api/MovieRates
 Authorization: Bearer {{BearerToken}}
 Content-Type: application/json
 
 // CreateTodoItemCommand
 {
-  "ListId": 1,
-  "Title": "Eat a burrito 🌯"
+  "MovieId": 1,
+  "Rate": "1"
 }
 
 ###
