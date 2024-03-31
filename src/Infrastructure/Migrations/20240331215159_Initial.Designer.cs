@@ -12,7 +12,7 @@ using Rihal.ReelRise.Infrastructure.Data;
 namespace Rihal.ReelRise.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240327174807_Initial")]
+    [Migration("20240331215159_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -157,7 +157,7 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.FilmCrew", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -171,40 +171,21 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Done")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset>("LastModified")
+                    b.Property<DateTimeOffset?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("ListId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Note")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("Reminder")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ListId");
-
-                    b.ToTable("TodoItems");
+                    b.ToTable("FilmCrews");
                 });
 
-            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,26 +193,51 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("numeric");
+
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("LastModified")
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoLists");
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.MovieFilmCrew", b =>
+                {
+                    b.Property<int>("MovieId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FilmCrewId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CrewType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("MovieId", "FilmCrewId", "CrewType");
+
+                    b.HasIndex("FilmCrewId");
+
+                    b.ToTable("MovieFilmCrew");
                 });
 
             modelBuilder.Entity("Rihal.ReelRise.Infrastructure.Identity.ApplicationUser", b =>
@@ -349,43 +355,33 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.TodoItem", b =>
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.MovieFilmCrew", b =>
                 {
-                    b.HasOne("Rihal.ReelRise.Domain.Entities.TodoList", "List")
-                        .WithMany("Items")
-                        .HasForeignKey("ListId")
+                    b.HasOne("Rihal.ReelRise.Domain.Entities.FilmCrew", "FilmCrew")
+                        .WithMany("MovieFilmCrews")
+                        .HasForeignKey("FilmCrewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("List");
-                });
-
-            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.TodoList", b =>
-                {
-                    b.OwnsOne("Rihal.ReelRise.Domain.ValueObjects.Colour", "Colour", b1 =>
-                        {
-                            b1.Property<int>("TodoListId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("Code")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.HasKey("TodoListId");
-
-                            b1.ToTable("TodoLists");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TodoListId");
-                        });
-
-                    b.Navigation("Colour")
+                    b.HasOne("Rihal.ReelRise.Domain.Entities.Movie", "Movie")
+                        .WithMany("MovieFilmCrews")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FilmCrew");
+
+                    b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.TodoList", b =>
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.FilmCrew", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("MovieFilmCrews");
+                });
+
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.Movie", b =>
+                {
+                    b.Navigation("MovieFilmCrews");
                 });
 #pragma warning restore 612, 618
         }

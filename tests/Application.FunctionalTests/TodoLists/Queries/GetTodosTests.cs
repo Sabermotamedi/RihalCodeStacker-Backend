@@ -25,19 +25,19 @@ public class GetTodosTests : BaseTestFixture
     {
         await RunAsDefaultUserAsync();
 
-        await AddAsync(new TodoList
+        await AddAsync(new Movie
         {
             Title = "Shopping",
             Colour = Colour.Blue,
             Items =
                     {
-                        new TodoItem { Title = "Apples", Done = true },
-                        new TodoItem { Title = "Milk", Done = true },
-                        new TodoItem { Title = "Bread", Done = true },
-                        new TodoItem { Title = "Toilet paper" },
-                        new TodoItem { Title = "Pasta" },
-                        new TodoItem { Title = "Tissues" },
-                        new TodoItem { Title = "Tuna" }
+                        new FilmCrew { Title = "Apples", Done = true },
+                        new FilmCrew { Title = "Milk", Done = true },
+                        new FilmCrew { Title = "Bread", Done = true },
+                        new FilmCrew { Title = "Toilet paper" },
+                        new FilmCrew { Title = "Pasta" },
+                        new FilmCrew { Title = "Tissues" },
+                        new FilmCrew { Title = "Tuna" }
                     }
         });
 

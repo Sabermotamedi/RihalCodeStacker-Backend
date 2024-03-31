@@ -4,9 +4,9 @@ namespace Rihal.ReelRise.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<TodoList> TodoLists { get; }
+    DbSet<Movie> Movies { get; }
 
-    DbSet<TodoItem> TodoItems { get; }
+    DbSet<FilmCrew> FilmCrews { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -34,7 +34,7 @@ public class DeleteTodoItemTests : BaseTestFixture
 
         await SendAsync(new DeleteTodoItemCommand(itemId));
 
-        var item = await FindAsync<TodoItem>(itemId);
+        var item = await FindAsync<FilmCrew>(itemId);
 
         item.Should().BeNull();
     }

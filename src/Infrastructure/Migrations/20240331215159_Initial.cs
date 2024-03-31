@@ -52,21 +52,40 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoLists",
+                name: "FilmCrews",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Colour_Code = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     LastModifiedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoLists", x => x.Id);
+                    table.PrimaryKey("PK_FilmCrews", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Budget = table.Column<decimal>(type: "numeric", nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,29 +195,26 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoItems",
+                name: "MovieFilmCrew",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ListId = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Note = table.Column<string>(type: "text", nullable: true),
-                    Priority = table.Column<int>(type: "integer", nullable: false),
-                    Reminder = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Done = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    MovieId = table.Column<int>(type: "integer", nullable: false),
+                    FilmCrewId = table.Column<int>(type: "integer", nullable: false),
+                    CrewType = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoItems", x => x.Id);
+                    table.PrimaryKey("PK_MovieFilmCrew", x => new { x.MovieId, x.FilmCrewId, x.CrewType });
                     table.ForeignKey(
-                        name: "FK_TodoItems_TodoLists_ListId",
-                        column: x => x.ListId,
-                        principalTable: "TodoLists",
+                        name: "FK_MovieFilmCrew_FilmCrews_FilmCrewId",
+                        column: x => x.FilmCrewId,
+                        principalTable: "FilmCrews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieFilmCrew_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -241,9 +257,9 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TodoItems_ListId",
-                table: "TodoItems",
-                column: "ListId");
+                name: "IX_MovieFilmCrew_FilmCrewId",
+                table: "MovieFilmCrew",
+                column: "FilmCrewId");
         }
 
         /// <inheritdoc />
@@ -265,7 +281,7 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TodoItems");
+                name: "MovieFilmCrew");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -274,7 +290,10 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "TodoLists");
+                name: "FilmCrews");
+
+            migrationBuilder.DropTable(
+                name: "Movies");
         }
     }
 }

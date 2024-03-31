@@ -20,7 +20,7 @@ public class TodoItemDto
     {
         public Mapping()
         {
-            CreateMap<TodoItem, TodoItemDto>().ForMember(d => d.Priority, 
+            CreateMap<FilmCrew, TodoItemDto>().ForMember(d => d.Priority, 
                 opt => opt.MapFrom(s => (int)s.Priority));
         }
     }

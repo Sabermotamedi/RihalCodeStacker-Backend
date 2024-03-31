@@ -25,7 +25,7 @@ public class DeleteTodoListTests : BaseTestFixture
 
         await SendAsync(new DeleteTodoListCommand(listId));
 
-        var list = await FindAsync<TodoList>(listId);
+        var list = await FindAsync<Movie>(listId);
 
         list.Should().BeNull();
     }

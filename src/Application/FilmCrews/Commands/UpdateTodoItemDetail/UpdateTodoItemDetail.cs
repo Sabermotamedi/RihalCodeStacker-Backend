@@ -9,7 +9,7 @@ public record UpdateTodoItemDetailCommand : IRequest
 
     public int ListId { get; init; }
 
-    public PriorityLevel Priority { get; init; }
+    public FlmCrewType Priority { get; init; }
 
     public string? Note { get; init; }
 }

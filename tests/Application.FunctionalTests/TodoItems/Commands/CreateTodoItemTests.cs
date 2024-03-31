@@ -36,7 +36,7 @@ public class CreateTodoItemTests : BaseTestFixture
 
         var itemId = await SendAsync(command);
 
-        var item = await FindAsync<TodoItem>(itemId);
+        var item = await FindAsync<FilmCrew>(itemId);
 
         item.Should().NotBeNull();
         item!.ListId.Should().Be(command.ListId);

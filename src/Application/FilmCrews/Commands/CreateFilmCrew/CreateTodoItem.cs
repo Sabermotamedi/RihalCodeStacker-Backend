@@ -22,7 +22,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
 
     public async Task<int> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = new TodoItem
+        var entity = new FilmCrew
         {
             ListId = request.ListId,
             Title = request.Title,
@@ -31,7 +31,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
 
         entity.AddDomainEvent(new TodoItemCreatedEvent(entity));
 
-        _context.TodoItems.Add(entity);
+        _context.FilmCrews.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 
