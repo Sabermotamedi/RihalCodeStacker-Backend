@@ -3,7 +3,7 @@
 
 @Email=administrator@localhost
 @Password=Administrator1!
-@BearerToken=CfDJ8KDP98tlKjNGkk48ugmxKJTDwvK4T4yCIsF9Z0sMIqQoYCHpV-p4Ld-7CMpoV16NvbZMx6a84m3asoC6UH1LhT2nrPMyQSRve6BdwQsrZswDWvQAfSer-kVbbxGN7-Miw9dXbGPyn2eARFZbet6FXxNlKr6SbgutFAG-zBg-UJQJDp4xEOD4JLRGC7XiHnyY2okDtSEUaTh3_AkHViWtORA7PMFVUj9-ImJY1U6seuWfpVLr6Nrq9wB8XK9LdsgBN54Ho5rHZcqWYRzVlBcYZXHjM4aPrHmjiQGXoh3TuwLsou7GNKsKayqxtCR8kcm1-TGglulhI5IrIXsMkSM24q8c2C8B-_VcB81Er_p-fYj0IGDDEUoB73BppIGtpNJG8Q8hdLg7ZkKh0Rylh4rpRZ4xU4ecIpD6RmQbz2h6VNlVsX_w_GUNRkTg7TbY-ql9zNGykX1WGJ9zRKQpnfQPPOiAn388axf5Icxl7X52o90k6WNC2xHpA5SQ8Q1tKfppDzDT9_WCTtkmvkW8qs6NK8pLSUtWKOPOYoamc2ENO-fdo8XK-B8FaACS5TiC1zFWtpyiRvooWcB1vAC6hlHbh3G5XEo7ukKXgk3dFLo-Kji_h-OSfhJHcuLqRg8zxPaMMz6aDQaoKsflzKYANn_B8I0Q8rBFvlPRcHT3NMNaTlXSjyv5e9OX2nVftzrqTWAfCuQBEeS-dnLa_8OrKns7XJRw2SFhFuQusISohcoqMVrI5jncaOJaPEHmtGbPeBlEcEBf8nVk0cXHAxdGhFUEtiHtDbB6DV9_T23v3kYQbbyiyOeeTYnc25cr8NaTSrcIHg
+@BearerToken=CfDJ8KDP98tlKjNGkk48ugmxKJTjRemMaJZRn08PdT_HXQ_5ng9lSKoEqSUC7riQanSntb_PSGcF1sTz3jqsbF8BX__owxaRCPT52R_zkqaUBvsaXbziLnX4b8Vwrp91bdO8vAWb_-Is5dbTWSR7l6D1tBpvXDCa8IsZEG9TXnSwOEF3k3ng4Pv3utzn7xl0mEAqFsmUR1yBtyKn9V4KTWjNbHFxOkuF5UKx6z_R6DXyzjk7uM9ccIezQVWq1NX0CbSkkT0wDHDZ9o8EHMTAGt38LFc_JThvKXTY4EhRy0e1ZXmbqdrRQtP_7TuZtFD3fhQQwdXdD5jA7jlieY2YOJqz4VAeijrhNcPkQD1RznrpCWXAbNkVVApmxOCkAmYMp8y7tSrZVzBxhPUXWDdPE6akP0qubWA8tYsDUr0SkXY3rQd2DgZhG8mo5iH1SvwyHTswhnRhSNUurgYHDupycbqZhB_shjLp5SrwLA11hbgQT_59F0YR2ObQGWI06ULaqd0H2C56kZwTopzP1Zc8WpmfSvOyxTcdvKujl4wf0A-JJOXI-dkTxodWjOW0ZFFvC2-DlVbk57lCvVdgGN6xQ7TQDrJrcS92sr4gQlOXtAs7rxnroXBMwwaciwnqzEfvqKwnISpZquWaKPCqgz9lfZr31Qr-YgpQ3NoLrZu7K7FStWZUtn8APpmVOFX4xIF6F6vCC7wMBTJLJ_ZBvJhsSp_wQYdIZedYoonPMFYi7kw97qb1JlutJB0I55O44-o-IgSuZ10wxPKWdeuHmK3kVciaFOTuEB1OrCCPcFwnm-MNgECKXdnIoOiRktL3apPfRlwJYA
 
 # POST Users Register
 POST {{Web_HostAddress}}/api/Users/Register
@@ -34,6 +34,19 @@ Content-Type: application/json
 
 {
   "refreshToken": ""
+}
+
+###
+
+# POST MovieRates
+POST {{Web_HostAddress}}/api/MovieRates
+Authorization: Bearer {{BearerToken}}
+Content-Type: application/json
+
+// CreateMovieRatesCommand
+{
+  "MovieId": 0,
+  "Rate": 0
 }
 
 ###
@@ -90,18 +103,7 @@ Authorization: Bearer {{BearerToken}}
 
 ###
 
-# POST TodoItems
-POST {{Web_HostAddress}}/api/MovieRates
-Authorization: Bearer {{BearerToken}}
-Content-Type: application/json
 
-// CreateTodoItemCommand
-{
-  "MovieId": 1,
-  "Rate": "1"
-}
-
-###
 
 #PUT TodoItems UpdateItemDetails
 PUT {{Web_HostAddress}}/api/TodoItems/UpdateItemDetails?Id=1

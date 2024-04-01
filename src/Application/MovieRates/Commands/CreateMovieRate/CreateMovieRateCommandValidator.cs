@@ -11,21 +11,19 @@ public class CreateMovieRateCommandValidator : AbstractValidator<CreateMovieRate
     {
         _context = context;
 
-        RuleFor 
-            MovieId
-            Rate
+        RuleFor(v => v.Rate)
+            .LessThanOrEqualTo(10)
+            .GreaterThanOrEqualTo(1)
+                .WithMessage("Rate must be in the range of 1 to 10.");
 
-        //RuleFor(v => v.MovieId)
-        //    .NotEmpty()
-        //    .MaximumLength(200)
-        //    .MustAsync(BeUniqueTitle)
-        //        .WithMessage("'{PropertyName}' must be unique.")
-        //        .WithErrorCode("Unique");
+        RuleFor(v => v.MovieId)          
+            .MustAsync(BeExistInDatabase)
+                .WithMessage("This movie is not exist")
+                .WithErrorCode("Unique");
     }
 
-    //public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
-    //{
-    //    return await _context.TodoLists
-    //        .AllAsync(l => l.Title != title, cancellationToken);
-    //}
+    public async Task<bool> BeExistInDatabase(int movieId, CancellationToken cancellationToken)
+    {
+        return await _context.Movies.AnyAsync(x => x.Id == movieId);
+    }
 }
