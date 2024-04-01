@@ -7,11 +7,20 @@
 
   <ItemGroup>
     <Compile Remove="FilmCrews\**" />
-    <Compile Remove="TodoLists\**" />
+    <Compile Remove="MovieRates\Commands\DeleteTodoList\**" />
+    <Compile Remove="MovieRates\Commands\PurgeTodoLists\**" />
+    <Compile Remove="MovieRates\Commands\UpdateTodoList\**" />
+    <Compile Remove="MovieRates\Queries\GetTodos\**" />
     <EmbeddedResource Remove="FilmCrews\**" />
-    <EmbeddedResource Remove="TodoLists\**" />
+    <EmbeddedResource Remove="MovieRates\Commands\DeleteTodoList\**" />
+    <EmbeddedResource Remove="MovieRates\Commands\PurgeTodoLists\**" />
+    <EmbeddedResource Remove="MovieRates\Commands\UpdateTodoList\**" />
+    <EmbeddedResource Remove="MovieRates\Queries\GetTodos\**" />
     <None Remove="FilmCrews\**" />
-    <None Remove="TodoLists\**" />
+    <None Remove="MovieRates\Commands\DeleteTodoList\**" />
+    <None Remove="MovieRates\Commands\PurgeTodoLists\**" />
+    <None Remove="MovieRates\Commands\UpdateTodoList\**" />
+    <None Remove="MovieRates\Queries\GetTodos\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +32,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MovieRates\Queries\" />
   </ItemGroup>
 
 </Project>
