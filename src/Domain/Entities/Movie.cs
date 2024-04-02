@@ -4,7 +4,6 @@ public class Movie : BaseAuditableEntity
 {
     public Movie()
     {
-        Created = DateTime.Now;
     }
     public string? Name { get; set; }
 
@@ -14,5 +13,10 @@ public class Movie : BaseAuditableEntity
 
     public DateTime? ReleaseDate { get; set; }
 
+    public int AverageRate { get; set; }
+
     public ICollection<MovieFilmCrew> MovieFilmCrews { get; set; } = new List<MovieFilmCrew>();
+
+    public ICollection<MovieRate> MovieRates { get; set; } = new List<MovieRate>();
+
 }

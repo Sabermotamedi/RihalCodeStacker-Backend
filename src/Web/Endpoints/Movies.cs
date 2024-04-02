@@ -1,21 +1,24 @@
-﻿namespace Rihal.ReelRise.Web.Endpoints;
+﻿using Rihal.ReelRise.Application.Movies.Queries;
+using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
 
-public class TodoLists : EndpointGroupBase
+namespace Rihal.ReelRise.Web.Endpoints;
+
+public class Movies : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization();
-            //.MapGet(GetTodoLists)
+            .RequireAuthorization()
+            .MapGet(GetAllMovieWithRate);
             //.MapPost(CreateTodoList)
             //.MapPut(UpdateTodoList, "{id}")
             //.MapDelete(DeleteTodoList, "{id}");
     }
 
-    //public Task<TodosVm> GetTodoLists(ISender sender)
-    //{
-    //    return  sender.Send(new GetTodosQuery());
-    //}
+    public Task<List<GetAllMovieWithRateDto>> GetAllMovieWithRate(ISender sender)
+    {
+        return sender.Send(new GetAllMovieWithRateQuery());
+    }
 
     //public Task<int> CreateTodoList(ISender sender, CreateTodoListCommand command)
     //{

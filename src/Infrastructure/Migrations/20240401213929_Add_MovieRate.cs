@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Rihal.ReelRise.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Add_MovieRate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,6 +78,7 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     Budget = table.Column<decimal>(type: "numeric", nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    AverageRate = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -219,6 +220,31 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MovieRates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    MovieId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    Rate = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieRates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MovieRates_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -260,6 +286,11 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                 name: "IX_MovieFilmCrew_FilmCrewId",
                 table: "MovieFilmCrew",
                 column: "FilmCrewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieRates_MovieId",
+                table: "MovieRates",
+                column: "MovieId");
         }
 
         /// <inheritdoc />
@@ -282,6 +313,9 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "MovieFilmCrew");
+
+            migrationBuilder.DropTable(
+                name: "MovieRates");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -12,8 +12,8 @@ using Rihal.ReelRise.Infrastructure.Data;
 namespace Rihal.ReelRise.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240331215159_Initial")]
-    partial class Initial
+    [Migration("20240401213929_Add_MovieRate")]
+    partial class Add_MovieRate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -193,6 +193,9 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AverageRate")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Budget")
                         .HasColumnType("numeric");
 
@@ -238,6 +241,42 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                     b.HasIndex("FilmCrewId");
 
                     b.ToTable("MovieFilmCrew");
+                });
+
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.MovieRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieRates");
                 });
 
             modelBuilder.Entity("Rihal.ReelRise.Infrastructure.Identity.ApplicationUser", b =>
@@ -374,6 +413,17 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.MovieRate", b =>
+                {
+                    b.HasOne("Rihal.ReelRise.Domain.Entities.Movie", "Movie")
+                        .WithMany("MovieRates")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+                });
+
             modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.FilmCrew", b =>
                 {
                     b.Navigation("MovieFilmCrews");
@@ -382,6 +432,8 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
             modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.Movie", b =>
                 {
                     b.Navigation("MovieFilmCrews");
+
+                    b.Navigation("MovieRates");
                 });
 #pragma warning restore 612, 618
         }
