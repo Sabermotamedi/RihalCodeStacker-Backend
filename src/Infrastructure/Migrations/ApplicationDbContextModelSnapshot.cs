@@ -190,6 +190,9 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AverageRate")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Budget")
                         .HasColumnType("numeric");
 
@@ -264,10 +267,11 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("MovieRates");
                 });
@@ -406,6 +410,17 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.MovieRate", b =>
+                {
+                    b.HasOne("Rihal.ReelRise.Domain.Entities.Movie", "Movie")
+                        .WithMany("MovieRates")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+                });
+
             modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.FilmCrew", b =>
                 {
                     b.Navigation("MovieFilmCrews");
@@ -414,6 +429,8 @@ namespace Rihal.ReelRise.Infrastructure.Migrations
             modelBuilder.Entity("Rihal.ReelRise.Domain.Entities.Movie", b =>
                 {
                     b.Navigation("MovieFilmCrews");
+
+                    b.Navigation("MovieRates");
                 });
 #pragma warning restore 612, 618
         }
