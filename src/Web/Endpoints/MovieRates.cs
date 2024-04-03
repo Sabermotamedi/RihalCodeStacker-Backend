@@ -1,4 +1,6 @@
 ﻿using Rihal.ReelRise.Application.MovieRates.Commands.CreateMovieRate;
+using Rihal.ReelRise.Application.Movies.Queries;
+using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
 
 namespace Rihal.ReelRise.Web.Endpoints;
 
@@ -8,29 +10,25 @@ public class MovieRates : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
-            //.MapGet(GetTodoItemsWithPagination)
+            .MapGet(GetTopFiveByCurrentUser, "GetTopFiveByCurrentUser")
             .MapPost(CreateMovieRate);
-            //.MapPut(UpdateTodoItem, "{id}")
-            //.MapPut(UpdateTodoItemDetail, "UpdateDetail/{id}")
-            //.MapDelete(DeleteTodoItem, "{id}");
     }
 
     //public Task<PaginatedList<TodoItemBriefDto>> GetTodoItemsWithPagination(ISender sender, [AsParameters] GetTodoItemsWithPaginationQuery query)
     //{
-    //    return sender.Send(query);
+    //   return sender.Send(query);
     //}
 
     public Task<int> CreateMovieRate(ISender sender, CreateMovieRateCommand command)
-    {      
+    {
         return sender.Send(command);
     }
 
-    //public async Task<IResult> UpdateTodoItem(ISender sender, int id, UpdateTodoItemCommand command)
-    //{
-    //    if (id != command.Id) return Results.BadRequest();
-    //    await sender.Send(command);
-    //    return Results.NoContent();
-    //}
+
+    public async Task<List<GetTopFiveByCurrentUserDto>> GetTopFiveByCurrentUser(ISender sender)
+    {
+        return await sender.Send(new GetTopFiveByCurrentUserQuery());
+    }
 
     //public async Task<IResult> UpdateTodoItemDetail(ISender sender, int id, UpdateTodoItemDetailCommand command)
     //{
