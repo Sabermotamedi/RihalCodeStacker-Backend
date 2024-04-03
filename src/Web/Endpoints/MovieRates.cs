@@ -8,8 +8,8 @@ public class MovieRates : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
-            //.MapGet(GetTodoItemsWithPagination)
             .MapPost(CreateMovieRate);
+            //.MapGet(GetTodoItemsWithPagination)
             //.MapPut(UpdateTodoItem, "{id}")
             //.MapPut(UpdateTodoItemDetail, "UpdateDetail/{id}")
             //.MapDelete(DeleteTodoItem, "{id}");

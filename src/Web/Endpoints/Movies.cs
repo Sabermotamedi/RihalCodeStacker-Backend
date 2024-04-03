@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rihal.ReelRise.Application.Movies.Queries;
 using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
+using Rihal.ReelRise.Application.Movies.Queries.SearchMovie;
 
 namespace Rihal.ReelRise.Web.Endpoints;
 
@@ -11,9 +12,8 @@ public class Movies : EndpointGroupBase
         app.MapGroup(this)
             .RequireAuthorization()
             .MapGet(GetAllMovieWithRate)
-            .MapGet(GetMovieById, "{id}");
-
-
+            .MapGet(GetMovieById, "{id}")
+            .MapGet(SearchMovie, "search");
     }
 
     public Task<List<GetAllMovieWithRateDto>> GetAllMovieWithRate(ISender sender)
@@ -24,6 +24,11 @@ public class Movies : EndpointGroupBase
     public Task<MovieDto> GetMovieById(ISender sender, int id)
     {
         return sender.Send(new GetMovieByIdQuery { Id = id });
+    }
+
+    public Task<List<SearchMovieDto>> SearchMovie(ISender sender, [FromQuery] string param)
+    {
+        return sender.Send(new SearchMovieQuery { SearchValue = param });
     }
 
     //public async Task<IResult> UpdateTodoList(ISender sender, int id, UpdateTodoListCommand command)
