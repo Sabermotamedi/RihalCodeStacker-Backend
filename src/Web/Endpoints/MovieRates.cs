@@ -17,7 +17,7 @@ public class MovieRates : EndpointGroupBase
 
     //public Task<PaginatedList<TodoItemBriefDto>> GetTodoItemsWithPagination(ISender sender, [AsParameters] GetTodoItemsWithPaginationQuery query)
     //{
-    //    return sender.Send(query);
+    //   return sender.Send(query);
     //}
 
     public Task<int> CreateMovieRate(ISender sender, CreateMovieRateCommand command)
