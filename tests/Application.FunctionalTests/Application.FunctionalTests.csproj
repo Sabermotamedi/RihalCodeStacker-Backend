@@ -6,16 +6,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="TodoItems\**" />
-      <Compile Remove="TodoLists\**" />
-      <EmbeddedResource Remove="TodoItems\**" />
-      <EmbeddedResource Remove="TodoLists\**" />
-      <None Remove="TodoItems\**" />
-      <None Remove="TodoLists\**" />
+      <Compile Remove="MovieRates\Commands\**" />
+      <Compile Remove="Movies\Commands\**" />
+      <EmbeddedResource Remove="MovieRates\Commands\**" />
+      <EmbeddedResource Remove="Movies\Commands\**" />
+      <None Remove="MovieRates\Commands\**" />
+      <None Remove="Movies\Commands\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="MovieRates\Commands\CreateMovieRateTests.cs" />
     </ItemGroup>
 
     <ItemGroup>

@@ -7,13 +7,13 @@ using Respawn;
 
 namespace Rihal.ReelRise.Application.FunctionalTests;
 
-public class SqlServerTestDatabase : ITestDatabase
+public class PostgreSqlTestDatabase : ITestDatabase
 {
     private readonly string _connectionString = null!;
     private SqlConnection _connection = null!;
     private Respawner _respawner = null!;
 
-    public SqlServerTestDatabase()
+    public PostgreSqlTestDatabase()
     {
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")

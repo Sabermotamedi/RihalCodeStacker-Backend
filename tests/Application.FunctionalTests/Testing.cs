@@ -22,8 +22,15 @@ public partial class Testing
         _database = await TestDatabaseFactory.CreateAsync();
 
         _factory = new CustomWebApplicationFactory(_database.GetConnection());
+        try
+        {           
+            _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
+        }
+        catch (Exception ex)
+        {
 
-        _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
+            throw new Exception(ex.Message);
+        }
     }
 
     public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
