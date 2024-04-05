@@ -111,9 +111,10 @@ public class ApplicationDbContextInitialiser
                         await _context.Movies.AddRangeAsync(movies);
                         await _context.SaveChangesAsync();
 
+                        var client = new HttpClient();
+
                         foreach (var movie in movies)
                         {
-                            var client = new HttpClient();
                             var request = new HttpRequestMessage(HttpMethod.Get, $"https://cinema.stag.rihal.tech/api/movie/{movie.Id}");
                             var response = await client.SendAsync(request);
                             response.EnsureSuccessStatusCode();
@@ -190,7 +191,7 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-  
+
 
     public class MovieDetailDto
     {
@@ -223,11 +224,13 @@ public class ApplicationDbContextInitialiser
 
         [JsonProperty("director")]
         public string? DirectorName { get; set; }
+
         public decimal Budget { get; set; }
     }
 }
 
-public class MovieDataSeeder(IWebHostEnvironment webHostEnvironment) {
+public class MovieDataSeeder(IWebHostEnvironment webHostEnvironment)
+{
 
     public async Task<List<Movie>?> GetMovies()
     {

@@ -10,5 +10,7 @@ public interface IApplicationDbContext
 
     DbSet<MovieRate> MovieRates { get; }
 
+    DbSet<Memory> Memories { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
