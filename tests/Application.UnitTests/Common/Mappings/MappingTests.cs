@@ -22,12 +22,6 @@ public class MappingTests
         _mapper = _configuration.CreateMapper();
     }
 
-    //[Test]
-    //public void ShouldHaveValidConfiguration()
-    //{
-    //    _configuration.AssertConfigurationIsValid();
-    //}
-
     [Test]
     [TestCase(typeof(Movie), typeof(GetAllMovieWithRateDto))]
     [TestCase(typeof(Movie), typeof(MovieDto))]
