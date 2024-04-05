@@ -3,6 +3,9 @@ using System.Runtime.CompilerServices;
 using AutoMapper;
 using NUnit.Framework;
 using Rihal.ReelRise.Application.Common.Interfaces;
+using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
+using Rihal.ReelRise.Application.Movies.Queries.SearchMovie;
+using Rihal.ReelRise.Domain.Entities;
 
 namespace Rihal.ReelRise.Application.UnitTests.Common.Mappings;
 
@@ -19,24 +22,23 @@ public class MappingTests
         _mapper = _configuration.CreateMapper();
     }
 
-    [Test]
-    public void ShouldHaveValidConfiguration()
-    {
-        _configuration.AssertConfigurationIsValid();
-    }
-
     //[Test]
-    //[TestCase(typeof(Movie), typeof(TodoListDto))]
-    //[TestCase(typeof(FilmCrew), typeof(TodoItemDto))]
-    //[TestCase(typeof(Movie), typeof(LookupDto))]
-    //[TestCase(typeof(FilmCrew), typeof(LookupDto))]
-    //[TestCase(typeof(FilmCrew), typeof(TodoItemBriefDto))]
-    //public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
+    //public void ShouldHaveValidConfiguration()
     //{
-    //    var instance = GetInstanceOf(source);
-
-    //    _mapper.Map(instance, source, destination);
+    //    _configuration.AssertConfigurationIsValid();
     //}
+
+    [Test]
+    [TestCase(typeof(Movie), typeof(GetAllMovieWithRateDto))]
+    [TestCase(typeof(Movie), typeof(MovieDto))]
+    [TestCase(typeof(Movie), typeof(SearchMovieDto))]
+    [TestCase(typeof(MovieRate), typeof(GetTopFiveByCurrentUserDto))]
+    public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
+    {
+        var instance = GetInstanceOf(source);
+
+        _mapper.Map(instance, source, destination);
+    }
 
     private object GetInstanceOf(Type type)
     {

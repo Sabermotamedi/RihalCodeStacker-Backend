@@ -32,8 +32,8 @@ public class SearchMovieHandler : IRequestHandler<SearchMovieQuery, List<SearchM
         var movies = await _context.Movies
               .AsNoTracking()
               .Where(x =>
-                  (!string.IsNullOrEmpty(x.Name) && x.Name.Contains(request.SearchValue.ToLower())) ||
-                  (!string.IsNullOrEmpty(x.Description) && x.Description.Contains(request.SearchValue.ToLower())))
+                  (!string.IsNullOrEmpty(x.Name) && x.Name.ToLower().Contains(request.SearchValue.ToLower())) ||
+                  (!string.IsNullOrEmpty(x.Description) && x.Description.ToLower().Contains(request.SearchValue.ToLower())))
               .ProjectTo<SearchMovieDto>(_mapper.ConfigurationProvider)
                   .ToListAsync(cancellationToken);
 
