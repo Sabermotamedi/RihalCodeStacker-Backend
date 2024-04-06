@@ -81,6 +81,34 @@
             "JWT": []
           }
         ]
+      },
+      "delete": {
+        "tags": [
+          "Memories"
+        ],
+        "operationId": "DeleteMemory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/Memories/photo/{id}": {
