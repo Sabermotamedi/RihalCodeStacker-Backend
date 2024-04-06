@@ -24,7 +24,6 @@ public class GetAllMemoryHandler : IRequestHandler<GetAllMemoryQuery, List<GetAl
     {
         var movies = await _context.Memories
                             .Include(x => x.Movie)
-                            .Include(x=>x.MemoryPhotos)
                             .AsNoTracking()
                               .ProjectTo<GetAllMemoryDto>(_mapper.ConfigurationProvider)
                                  .ToListAsync(cancellationToken);

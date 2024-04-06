@@ -142,6 +142,5 @@ public class CreateMemoriesTests : BaseTestFixture
         memoryDtos[0].Should().NotBeNull();
         memoryDtos[0].Title.Should().Be("Title");
         memoryDtos[0].MovieName.Should().Be("Mad Max");
-        memoryDtos[0].Photos.Should().HaveCount(1);
     }
 }
