@@ -113,7 +113,7 @@ public class CreateMemoriesTests : BaseTestFixture
 
         var filePath = "C:\\Repository\\MyProject\\RihalCodeStacker-Backend\\src\\Web\\wwwroot\\PhotoA.jpg";
 
-        List<IFormFile> Photos = new List<IFormFile>();
+        FormFileCollection Photos = new FormFileCollection();
 
         using (var fileStream = File.OpenRead(filePath))
         {

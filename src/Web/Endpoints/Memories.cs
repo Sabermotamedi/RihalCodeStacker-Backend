@@ -2,6 +2,7 @@
 using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
 using Rihal.ReelRise.Application.Movies.Queries;
 using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Rihal.ReelRise.Web.Endpoints;
 
@@ -10,13 +11,19 @@ public class Memories : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization()
-            .MapGet(CreateMemory)
-            .MapPost(GetMemoryById, "{id}");
+           // .RequireAuthorization()
+            .DisableAntiforgery()
+            .MapGet(GetMemoryById, "{id}")
+            .MapGet(GetMemoryPhotoById, "photo/{id}")
+            .MapPost(CreateMemory);
     }
 
-    public Task<int> CreateMemory(ISender sender, [FromForm] CreateMemoryCommand command, [FromForm] List<IFormFile> photos)
-    {
+    public Task<int> CreateMemory(ISender sender, [FromForm] IFormFileCollection photos, [FromForm] CreateMemoryCommand command)
+    {       
+        foreach (var item in photos)
+        {
+            var a = item.FileName;
+        }
         return sender.Send(command);
     }
 
@@ -28,5 +35,16 @@ public class Memories : EndpointGroupBase
     public Task<GetMemoryByIdDto> GetMemoryById(ISender sender, int id)
     {
         return sender.Send(new GetMemoryByIdQuery() { Id = id });
+    }
+
+    public async Task<IResult> GetMemoryPhotoById(ISender sender, int id)
+    {
+        var stream = await sender.Send(new GetPhotoByIdQuery() { Id = id });
+
+        if (stream == null || !stream.CanRead)
+        {
+            return Results.NotFound();
+        }
+        return Results.File(stream, "image/jpeg");
     }
 }

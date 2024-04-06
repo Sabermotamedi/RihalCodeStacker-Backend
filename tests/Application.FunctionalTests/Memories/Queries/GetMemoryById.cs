@@ -25,7 +25,7 @@ public class GetAllMemoryTests : BaseTestFixture
             Title = "Test Memory",
             Story = "Test Story",
             SawDate = DateTime.UtcNow,
-            Photos = new List<IFormFile>
+            Photos = new FormFileCollection
                 {
                     new FormFile(Stream.Null, 0, 0, "testPhotoA.jpg", "testPhotoA.jpg"),
                     new FormFile(Stream.Null, 0, 0, "testPhotoB.jpg", "testPhotoB.jpg")

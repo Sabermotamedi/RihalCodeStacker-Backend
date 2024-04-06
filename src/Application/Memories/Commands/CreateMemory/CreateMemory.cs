@@ -14,7 +14,7 @@ public record CreateMemoryCommand : IRequest<int>
 
     public DateTime SawDate { get; set; }
 
-    public List<IFormFile>? Photos { get; set; }
+    public IFormFileCollection? Photos { get; set; }
 }
 
 public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, int>

@@ -12,5 +12,7 @@ public interface IApplicationDbContext
 
     DbSet<Memory> Memories { get; }
 
+    DbSet<MemoryPhoto> MemoryPhoto { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
