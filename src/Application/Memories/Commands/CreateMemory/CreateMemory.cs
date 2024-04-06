@@ -14,7 +14,7 @@ public record CreateMemoryCommand : IRequest<int>
 
     public DateTime SawDate { get; set; }
 
-    public List<IFormFile>? Photos { get; set; }
+    public IFormFileCollection? Photos { get; set; }
 }
 
 public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, int>
@@ -22,12 +22,14 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
     private readonly IApplicationDbContext _context;
     private readonly IUser _user;
     private readonly IS3Storage _s3Storage;
+    private readonly IFileService _fileService;
 
-    public CreateMemoryCommandHandler(IApplicationDbContext context, IUser user, IS3Storage s3Storage)
+    public CreateMemoryCommandHandler(IApplicationDbContext context, IUser user, IS3Storage s3Storage, IFileService fileService)
     {
         _context = context;
         _user = user;
         _s3Storage = s3Storage;
+        _fileService = fileService;
     }
 
     public async Task<int> Handle(CreateMemoryCommand request, CancellationToken cancellationToken)
@@ -47,14 +49,19 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
 
             foreach (var photo in request.Photos)
             {
-                var result = await SaveToDisk(photo);
+                var fileInfo = _fileService.GetFileInformation(photo);
+
+                var result = await _fileService.SaveToDisk(photo);
 
                 // Fire and forget
-                _ = SaveToS3(result);
+                _ = SaveToS3(result.PhotoName, result.FilePath);
 
                 MemoryPhoto MemoryPhoto = new()
                 {
-                    Name = result.PhotoName
+                    UniqueName = result.PhotoName,
+                    Name = fileInfo.Name,
+                    Extension = fileInfo.Extension,
+                    Size = fileInfo.Size
                 };
 
                 entity.MemoryPhotos.Add(MemoryPhoto);
@@ -68,22 +75,8 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
         return entity.Id;
     }
 
-    private async Task SaveToS3((string PhotoName, string FilePath) result)
+    private async Task SaveToS3(string PhotoName, string FilePath)
     {
-        await _s3Storage.UploadToS3Async(result.PhotoName, result.FilePath, "MemoryFiles");
-    }
-
-    private static async Task<(string PhotoName, string FilePath)> SaveToDisk(IFormFile photo)
-    {
-        var photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-
-        var filePath = Path.Combine("c:\\files", photoName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await photo.CopyToAsync(stream); // Saving the photo to disk
-        }
-
-        return (photoName, filePath);
+        await _s3Storage.UploadToS3Async(PhotoName, FilePath, "MemoryFiles");
     }
 }
