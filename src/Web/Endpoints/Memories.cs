@@ -62,4 +62,10 @@ public class Memories : EndpointGroupBase
         await sender.Send(new DeleteMemoryCommand() { MemoryId = id });
         return Results.NoContent();
     }
+
+    public async Task<IResult> DeleteMemoryPhoto(ISender sender, int id)
+    {
+        await sender.Send(new DeleteMemoryPhotoCommand() { PhotoId = id });
+        return Results.NoContent();
+    }
 }
