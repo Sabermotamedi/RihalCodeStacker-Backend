@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
+using Rihal.ReelRise.Application.MovieRates.Commands.UpdateMemory;
 using Rihal.ReelRise.Application.Movies.Queries;
 using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -11,15 +12,16 @@ public class Memories : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-           // .RequireAuthorization()
+            .RequireAuthorization()
             .DisableAntiforgery()
             .MapGet(GetMemoryById, "{id}")
             .MapGet(GetMemoryPhotoById, "photo/{id}")
+            .MapPut(UpdateMemory, "{id}")
             .MapPost(CreateMemory);
     }
 
     public Task<int> CreateMemory(ISender sender, [FromForm] IFormFileCollection photos, [FromForm] CreateMemoryCommand command)
-    {       
+    {
         foreach (var item in photos)
         {
             var a = item.FileName;
@@ -46,5 +48,10 @@ public class Memories : EndpointGroupBase
             return Results.NotFound();
         }
         return Results.File(stream, "image/jpeg");
+    }
+
+    public Task UpdateMemory(ISender sender, int id, UpdateMemoryCommand command)
+    {
+        return sender.Send(command);
     }
 }
