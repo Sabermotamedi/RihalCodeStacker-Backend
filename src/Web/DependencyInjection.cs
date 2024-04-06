@@ -32,6 +32,7 @@ public static class DependencyInjection
 
         services.AddEndpointsApiExplorer();
 
+
         services.AddOpenApiDocument((configure, sp) =>
         {
             configure.Title = "Rihal.ReelRise API";

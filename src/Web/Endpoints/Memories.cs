@@ -1,4 +1,5 @@
-﻿using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
+﻿using Microsoft.AspNetCore.Mvc;
+using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
 
 namespace Rihal.ReelRise.Web.Endpoints;
 
@@ -11,7 +12,7 @@ public class Memories : EndpointGroupBase
             .MapPost(CreateMemory);
     }
 
-    public Task<int> CreateMemory(ISender sender, CreateMemoryCommand command)
+    public Task<int> CreateMemory(ISender sender, [FromForm] CreateMemoryCommand command, [FromForm] List<IFormFile> photos)
     {
         return sender.Send(command);
     }
