@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
+using Rihal.ReelRise.Application.Movies.Queries;
+using Rihal.ReelRise.Application.Movies.Queries.GetAllMovieWithRate;
 
 namespace Rihal.ReelRise.Web.Endpoints;
 
@@ -17,4 +19,8 @@ public class Memories : EndpointGroupBase
         return sender.Send(command);
     }
 
+    public Task<List<GetAllMemoryDto>> GetAllMemory(ISender sender)
+    {
+        return sender.Send(new GetAllMemoryQuery());
+    }
 }
