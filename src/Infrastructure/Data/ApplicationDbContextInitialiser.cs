@@ -1,16 +1,15 @@
-﻿using System.Runtime.InteropServices;
-using Rihal.ReelRise.Domain.Constants;
-using Rihal.ReelRise.Domain.Entities;
-using Rihal.ReelRise.Infrastructure.Identity;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
+using Rihal.ReelRise.Application.Common.Utilities;
+using Rihal.ReelRise.Domain.Constants;
+using Rihal.ReelRise.Domain.Entities;
 using Rihal.ReelRise.Domain.Enums;
+using Rihal.ReelRise.Infrastructure.Identity;
 
 namespace Rihal.ReelRise.Infrastructure.Data;
 
@@ -102,16 +101,19 @@ public class ApplicationDbContextInitialiser
             {
                 if (!_context.FilmCrews.Any())
                 {
-                    List<Movie>? movies = await GetMovies();
+                    MovieDataSeeder movieDataSeeder = new MovieDataSeeder(_webHostEnvironment);
+
+                    List<Movie>? movies = await movieDataSeeder.GetMovies();
 
                     if (movies is not null && movies.Count > 0)
                     {
                         await _context.Movies.AddRangeAsync(movies);
                         await _context.SaveChangesAsync();
 
+                        var client = new HttpClient();
+
                         foreach (var movie in movies)
                         {
-                            var client = new HttpClient();
                             var request = new HttpRequestMessage(HttpMethod.Get, $"https://cinema.stag.rihal.tech/api/movie/{movie.Id}");
                             var response = await client.SendAsync(request);
                             response.EnsureSuccessStatusCode();
@@ -119,7 +121,7 @@ public class ApplicationDbContextInitialiser
 
                             MovieDetailDto movieDetail = JsonConvert.DeserializeObject<MovieDetailDto>(filmDetail) ?? throw new InvalidOperationException("The filmDetail is null.");
 
-                            movie.ReleaseDate = movieDetail.ReleaseDate;
+                            movie.ReleaseDate = movieDetail.ReleaseDate.ToUtc();
                             movie.Budget = movieDetail.Budget;
 
                             if (movieDetail.MainCasts is not null && movieDetail.MainCasts.Count > 0)
@@ -188,22 +190,7 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    private async Task<List<Movie>?> GetMovies()
-    {
-        string dirpath = _webHostEnvironment.WebRootPath;
 
-        string assemblyPath = Assembly.GetExecutingAssembly().Location;
-
-        string binDirectory = Path.GetDirectoryName(assemblyPath) ?? throw new InvalidOperationException("The directory path could not be determined.");
-
-        string relativePath = @"InitialData/movies.json";
-        string filePath = Path.GetFullPath(Path.Combine(dirpath, relativePath));
-
-        string json = await File.ReadAllTextAsync(filePath);
-
-        List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json);
-        return movies;
-    }
 
     public class MovieDetailDto
     {
@@ -236,6 +223,25 @@ public class ApplicationDbContextInitialiser
 
         [JsonProperty("director")]
         public string? DirectorName { get; set; }
+
         public decimal Budget { get; set; }
     }
 }
+
+public class MovieDataSeeder(IWebHostEnvironment webHostEnvironment)
+{
+
+    public async Task<List<Movie>?> GetMovies()
+    {
+        string dirpath = webHostEnvironment.WebRootPath;
+
+        string relativePath = @"InitialData/movies.json";
+        string filePath = Path.GetFullPath(Path.Combine(dirpath, relativePath));
+
+        string json = await File.ReadAllTextAsync(filePath);
+
+        List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json);
+        return movies;
+    }
+}
+

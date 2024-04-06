@@ -44,7 +44,7 @@ public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdQuery, MovieDto>
                 Budget = movie.Budget,
                 Name = movie.Name,
                 Description = movie.Description,
-                ReleaseDate = movie.ReleaseDate.HasValue ? movie.ReleaseDate : null,
+                ReleaseDate = movie.ReleaseDate.HasValue ? movie.ReleaseDate.ToUtc() : null,
                 BudgetEnglishWorld = movie.Budget.ToEnglishWords(),
 
                 MyRate = movieRate is not null ? movieRate.Rate : 0,

@@ -2,9 +2,8 @@
 
 public class Movie : BaseAuditableEntity
 {
-    public Movie()
-    {
-    }
+    public Movie() { }
+
     public string? Name { get; set; }
 
     public string? Description { get; set; }
@@ -18,5 +17,8 @@ public class Movie : BaseAuditableEntity
     public ICollection<MovieFilmCrew> MovieFilmCrews { get; set; } = new List<MovieFilmCrew>();
 
     public ICollection<MovieRate> MovieRates { get; set; } = new List<MovieRate>();
+
+    public ICollection<Memory> Memories { get; set; } = new List<Memory>();
+
 
 }

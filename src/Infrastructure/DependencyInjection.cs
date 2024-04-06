@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Rihal.ReelRise.Infrastructure.Storage.GoogleStorage;
+using Rihal.ReelRise.Infrastructure.Storage.AwsStorage;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -48,6 +50,8 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
             options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
+
+        services.AddScoped<IS3Storage, S3Storage>();
 
         return services;
     }
