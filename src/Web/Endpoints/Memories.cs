@@ -11,7 +11,8 @@ public class Memories : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
-            .MapPost(CreateMemory);
+            .MapGet(CreateMemory)
+            .MapPost(GetMemoryById, "{id}");
     }
 
     public Task<int> CreateMemory(ISender sender, [FromForm] CreateMemoryCommand command, [FromForm] List<IFormFile> photos)
@@ -22,5 +23,10 @@ public class Memories : EndpointGroupBase
     public Task<List<GetAllMemoryDto>> GetAllMemory(ISender sender)
     {
         return sender.Send(new GetAllMemoryQuery());
+    }
+
+    public Task<GetMemoryByIdDto> GetMemoryById(ISender sender, int id)
+    {
+        return sender.Send(new GetMemoryByIdQuery() { Id = id });
     }
 }

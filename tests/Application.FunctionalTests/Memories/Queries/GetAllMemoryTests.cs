@@ -20,6 +20,4 @@ public class GetAllMemoryTests : BaseTestFixture
 
         result.Should().BeNullOrEmpty();
     }
-
-
 }
