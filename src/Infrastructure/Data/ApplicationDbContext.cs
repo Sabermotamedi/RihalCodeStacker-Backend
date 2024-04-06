@@ -19,6 +19,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<Memory> Memories => Set<Memory>();
 
+    public DbSet<MemoryPhoto> MemoryPhoto => Set<MemoryPhoto>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

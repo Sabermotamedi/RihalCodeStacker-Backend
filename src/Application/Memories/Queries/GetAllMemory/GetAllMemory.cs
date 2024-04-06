@@ -27,7 +27,6 @@ public class GetAllMemoryHandler : IRequestHandler<GetAllMemoryQuery, List<GetAl
                             .AsNoTracking()
                               .ProjectTo<GetAllMemoryDto>(_mapper.ConfigurationProvider)
                                  .ToListAsync(cancellationToken);
-
         return movies;
     }
 }
