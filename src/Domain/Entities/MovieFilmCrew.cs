@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Rihal.ReelRise.Domain.Entities;
+﻿namespace Rihal.ReelRise.Domain.Entities;
 public class MovieFilmCrew
 {
     public int MovieId { get; set; }

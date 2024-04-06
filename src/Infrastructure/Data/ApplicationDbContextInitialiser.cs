@@ -1,17 +1,15 @@
-﻿using System.Runtime.InteropServices;
-using Rihal.ReelRise.Domain.Constants;
-using Rihal.ReelRise.Domain.Entities;
-using Rihal.ReelRise.Infrastructure.Identity;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
-using Rihal.ReelRise.Domain.Enums;
 using Rihal.ReelRise.Application.Common.Utilities;
+using Rihal.ReelRise.Domain.Constants;
+using Rihal.ReelRise.Domain.Entities;
+using Rihal.ReelRise.Domain.Enums;
+using Rihal.ReelRise.Infrastructure.Identity;
 
 namespace Rihal.ReelRise.Infrastructure.Data;
 
@@ -104,6 +102,7 @@ public class ApplicationDbContextInitialiser
                 if (!_context.FilmCrews.Any())
                 {
                     MovieDataSeeder movieDataSeeder = new MovieDataSeeder(_webHostEnvironment);
+
                     List<Movie>? movies = await movieDataSeeder.GetMovies();
 
                     if (movies is not null && movies.Count > 0)
@@ -111,9 +110,10 @@ public class ApplicationDbContextInitialiser
                         await _context.Movies.AddRangeAsync(movies);
                         await _context.SaveChangesAsync();
 
+                        var client = new HttpClient();
+
                         foreach (var movie in movies)
                         {
-                            var client = new HttpClient();
                             var request = new HttpRequestMessage(HttpMethod.Get, $"https://cinema.stag.rihal.tech/api/movie/{movie.Id}");
                             var response = await client.SendAsync(request);
                             response.EnsureSuccessStatusCode();
@@ -190,7 +190,7 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-  
+
 
     public class MovieDetailDto
     {
@@ -223,11 +223,13 @@ public class ApplicationDbContextInitialiser
 
         [JsonProperty("director")]
         public string? DirectorName { get; set; }
+
         public decimal Budget { get; set; }
     }
 }
 
-public class MovieDataSeeder(IWebHostEnvironment webHostEnvironment) {
+public class MovieDataSeeder(IWebHostEnvironment webHostEnvironment)
+{
 
     public async Task<List<Movie>?> GetMovies()
     {
