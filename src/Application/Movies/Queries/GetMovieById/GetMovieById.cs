@@ -33,7 +33,10 @@ public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdQuery, MovieDto>
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-        var movieRate = await _context.MovieRates.FirstOrDefaultAsync(x => x.MovieId == request.Id && x.UserId == _user.Id);
+        var movieRate = await _context.MovieRates
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.MovieId == request.Id 
+                                       && x.UserId == _user.Id);
 
         if (movie is not null)
         {

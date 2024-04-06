@@ -47,14 +47,19 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
 
             foreach (var photo in request.Photos)
             {
+                var fileInfo = GetFileInformation(photo);
+
                 var result = await SaveToDisk(photo);
 
                 // Fire and forget
-                _ = SaveToS3(result);
+                _ = SaveToS3(result.PhotoName, result.FilePath);
 
                 MemoryPhoto MemoryPhoto = new()
                 {
-                    Name = result.PhotoName
+                    UniqueName = result.PhotoName,
+                    Name = fileInfo.Name,
+                    Extension = fileInfo.Extension,
+                    Size = fileInfo.Size
                 };
 
                 entity.MemoryPhotos.Add(MemoryPhoto);
@@ -68,9 +73,9 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
         return entity.Id;
     }
 
-    private async Task SaveToS3((string PhotoName, string FilePath) result)
+    private async Task SaveToS3(string PhotoName, string FilePath)
     {
-        await _s3Storage.UploadToS3Async(result.PhotoName, result.FilePath, "MemoryFiles");
+        await _s3Storage.UploadToS3Async(PhotoName, FilePath, "MemoryFiles");
     }
 
     private static async Task<(string PhotoName, string FilePath)> SaveToDisk(IFormFile photo)
@@ -85,5 +90,31 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
         }
 
         return (photoName, filePath);
+    }
+
+    private static FileInformation GetFileInformation(IFormFile file)
+    {
+        string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+
+        string fileExtension = Path.GetExtension(file.FileName);
+        fileExtension = fileExtension.Contains(".") ? fileExtension.Replace(".", "") : fileExtension;
+
+        long fileSize = file.Length;
+
+        return new FileInformation(fileName, fileExtension, fileSize);
+    }
+}
+
+public class FileInformation
+{
+    public string Name { get; set; }
+    public string Extension { get; set; }
+    public long Size { get; set; }
+
+    public FileInformation(string name, string extension, long size)
+    {
+        Name = name;
+        Extension = extension;
+        Size = size;
     }
 }
