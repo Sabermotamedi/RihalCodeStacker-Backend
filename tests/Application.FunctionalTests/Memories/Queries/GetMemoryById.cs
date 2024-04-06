@@ -12,7 +12,7 @@ namespace Rihal.ReelRise.Application.FunctionalTests.Memories.Queries;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static Testing;
 
-public class GetAllMemoryTests : BaseTestFixture
+public class GetMemoryById : BaseTestFixture
 {
     [Test]
     public async Task Should_Save_GetAll_And_ReturnAllMemories_WithPhoto_Information()

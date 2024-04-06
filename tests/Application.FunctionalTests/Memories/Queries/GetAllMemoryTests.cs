@@ -3,7 +3,7 @@ using Rihal.ReelRise.Application.Movies.Queries;
 using Rihal.ReelRise.Domain.Entities;
 using Rihal.ReelRise.Domain.ValueObjects;
 
-namespace Rihal.ReelRise.Application.FunctionalTests.TodoLists.Queries;
+namespace Rihal.ReelRise.Application.FunctionalTests.Memories.Queries;
 
 using static Testing;
 

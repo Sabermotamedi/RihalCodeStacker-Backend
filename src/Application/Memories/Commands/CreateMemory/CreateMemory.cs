@@ -22,12 +22,14 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
     private readonly IApplicationDbContext _context;
     private readonly IUser _user;
     private readonly IS3Storage _s3Storage;
+    private readonly IFileService _fileService;
 
-    public CreateMemoryCommandHandler(IApplicationDbContext context, IUser user, IS3Storage s3Storage)
+    public CreateMemoryCommandHandler(IApplicationDbContext context, IUser user, IS3Storage s3Storage, IFileService fileService)
     {
         _context = context;
         _user = user;
         _s3Storage = s3Storage;
+        _fileService = fileService;
     }
 
     public async Task<int> Handle(CreateMemoryCommand request, CancellationToken cancellationToken)
@@ -47,9 +49,9 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
 
             foreach (var photo in request.Photos)
             {
-                var fileInfo = GetFileInformation(photo);
+                var fileInfo = _fileService.GetFileInformation(photo);
 
-                var result = await SaveToDisk(photo);
+                var result = await _fileService.SaveToDisk(photo);
 
                 // Fire and forget
                 _ = SaveToS3(result.PhotoName, result.FilePath);
@@ -76,45 +78,5 @@ public class CreateMemoryCommandHandler : IRequestHandler<CreateMemoryCommand, i
     private async Task SaveToS3(string PhotoName, string FilePath)
     {
         await _s3Storage.UploadToS3Async(PhotoName, FilePath, "MemoryFiles");
-    }
-
-    private static async Task<(string PhotoName, string FilePath)> SaveToDisk(IFormFile photo)
-    {
-        var photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-
-        var filePath = Path.Combine("c:\\files", photoName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await photo.CopyToAsync(stream); // Saving the photo to disk
-        }
-
-        return (photoName, filePath);
-    }
-
-    private static FileInformation GetFileInformation(IFormFile file)
-    {
-        string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-
-        string fileExtension = Path.GetExtension(file.FileName);
-        fileExtension = fileExtension.Contains(".") ? fileExtension.Replace(".", "") : fileExtension;
-
-        long fileSize = file.Length;
-
-        return new FileInformation(fileName, fileExtension, fileSize);
-    }
-}
-
-public class FileInformation
-{
-    public string Name { get; set; }
-    public string Extension { get; set; }
-    public long Size { get; set; }
-
-    public FileInformation(string name, string extension, long size)
-    {
-        Name = name;
-        Extension = extension;
-        Size = size;
     }
 }

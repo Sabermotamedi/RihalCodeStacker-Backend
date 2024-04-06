@@ -18,15 +18,12 @@ public class Memories : EndpointGroupBase
             .MapGet(GetMemoryPhotoById, "photo/{id}")
             .MapPut(UpdateMemory, "{id}")
             .MapPost(CreateMemory)
-            .MapDelete(DeleteMemory, "{id}");
+            .MapDelete(DeleteMemory, "{id}")
+            .MapPost(DeleteOrDeleteMemoryPhoto, "DeleteAndDelete");
     }
 
     public Task<int> CreateMemory(ISender sender, [FromForm] IFormFileCollection photos, [FromForm] CreateMemoryCommand command)
     {
-        foreach (var item in photos)
-        {
-            var a = item.FileName;
-        }
         return sender.Send(command);
     }
 
@@ -63,9 +60,11 @@ public class Memories : EndpointGroupBase
         return Results.NoContent();
     }
 
-    public async Task<IResult> DeleteMemoryPhoto(ISender sender, int id)
+    public async Task<IResult> DeleteOrDeleteMemoryPhoto(ISender sender,
+                                                        [FromForm] IFormFileCollection photos,
+                                                        [FromForm] UpdateOrDeleteMemoryPhotoCommand command)
     {
-        await sender.Send(new DeleteMemoryPhotoCommand() { PhotoId = id });
+        await sender.Send(command);
         return Results.NoContent();
     }
 }

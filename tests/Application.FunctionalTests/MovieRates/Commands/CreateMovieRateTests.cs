@@ -7,7 +7,7 @@ using Rihal.ReelRise.Application.TodoLists.Commands.CreateTodoList;
 namespace Rihal.ReelRise.Application.FunctionalTests.MovieRates.Commands;
 using static Testing;
 
-public class CreateTodoItemTests : BaseTestFixture
+public class CreateMovieRateTests : BaseTestFixture
 {
     [Test]
     public async Task ShouldRequireMinimumFields()
