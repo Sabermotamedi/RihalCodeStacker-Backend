@@ -54,6 +54,7 @@ public static class DependencyInjection
 
         services.AddScoped<IS3Storage, S3Storage>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<ITextService, TextService>();
 
         return services;
     }
