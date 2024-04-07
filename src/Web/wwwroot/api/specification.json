@@ -194,6 +194,88 @@
         ]
       }
     },
+    "/api/Memories/DeleteAndDelete": {
+      "post": {
+        "tags": [
+          "Memories"
+        ],
+        "operationId": "DeleteOrDeleteMemoryPhoto",
+        "parameters": [
+          {
+            "name": "command",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/UpdateOrDeleteMemoryPhotoCommand"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "photos": {
+                    "type": "array",
+                    "nullable": true,
+                    "items": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Memories/urls/{id}": {
+      "post": {
+        "tags": [
+          "Memories"
+        ],
+        "operationId": "GetStoryLinksById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractStoryLinkByIdDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/MovieRates/GetTopFiveByCurrentUser": {
       "get": {
         "tags": [
@@ -352,6 +434,42 @@
                   "items": {
                     "$ref": "#/components/schemas/SearchMovieDto"
                   }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Movies/UnscrambleName/{name}": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "GetMovieByUnscrambleName",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMovieByUnscrambleNameDto"
                 }
               }
             }
@@ -856,6 +974,46 @@
           }
         }
       },
+      "UpdateOrDeleteMemoryPhotoCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "memoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "photoIds": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "photos": {
+            "type": "array",
+            "nullable": true,
+            "items": {}
+          }
+        }
+      },
+      "ExtractStoryLinkByIdDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "links": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "GetTopFiveByCurrentUserDto": {
         "type": "object",
         "additionalProperties": false,
@@ -961,6 +1119,24 @@
         }
       },
       "SearchMovieDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetMovieByUnscrambleNameDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
