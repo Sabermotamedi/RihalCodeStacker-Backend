@@ -27,6 +27,9 @@ public class GetMovieByUnscrambleNameHandler : IRequestHandler<GetMovieByUnscram
 
     public async Task<GetMovieByUnscrambleNameDto> Handle(GetMovieByUnscrambleNameQuery request, CancellationToken cancellationToken)
     {
+
+        // Note: In this scenario, it's advisable to consider utilizing a Redis database to enhance performance and minimize the number of calls to the SQL server.
+
         var movies = await _context.Movies
                 .AsNoTracking()
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
