@@ -8,4 +8,6 @@ namespace Rihal.ReelRise.Application.Common.Interfaces;
 public interface ITextService
 {
     List<string> ExtractUrls(string text);
+
+    public (int Id, string Name) GuessMovieTitle(string scrambled, Dictionary<int, string> movies);
 }

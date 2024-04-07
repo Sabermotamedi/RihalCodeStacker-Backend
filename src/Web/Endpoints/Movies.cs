@@ -13,7 +13,8 @@ public class Movies : EndpointGroupBase
             .RequireAuthorization()
             .MapGet(GetAllMovieWithRate)
             .MapGet(GetMovieById, "{id}")
-            .MapGet(SearchMovie, "search");
+            .MapGet(SearchMovie, "search")
+            .MapGet(GetMovieByUnscrambleName, "UnscrambleName/{name}");
     }
 
     public Task<List<GetAllMovieWithRateDto>> GetAllMovieWithRate(ISender sender)
@@ -31,16 +32,8 @@ public class Movies : EndpointGroupBase
         return sender.Send(new SearchMovieQuery { SearchValue = param });
     }
 
-    //public async Task<IResult> UpdateTodoList(ISender sender, int id, UpdateTodoListCommand command)
-    //{
-    //    if (id != command.Id) return Results.BadRequest();
-    //    await sender.Send(command);
-    //    return Results.NoContent();
-    //}
-
-    //public async Task<IResult> DeleteTodoList(ISender sender, int id)
-    //{
-    //    await sender.Send(new DeleteTodoListCommand(id));
-    //    return Results.NoContent();
-    //}
+    public Task<GetMovieByUnscrambleNameDto> GetMovieByUnscrambleName(ISender sender, string name)
+    {
+        return sender.Send(new GetMovieByUnscrambleNameQuery() { Name = name });
+    }
 }
