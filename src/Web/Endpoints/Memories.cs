@@ -19,7 +19,8 @@ public class Memories : EndpointGroupBase
             .MapPut(UpdateMemory, "{id}")
             .MapPost(CreateMemory)
             .MapDelete(DeleteMemory, "{id}")
-            .MapPost(DeleteOrDeleteMemoryPhoto, "DeleteAndDelete");
+            .MapPost(DeleteOrDeleteMemoryPhoto, "DeleteAndDelete")
+            .MapPost(GetStoryLinksById, "urls/{id}");
     }
 
     public Task<int> CreateMemory(ISender sender, [FromForm] IFormFileCollection photos, [FromForm] CreateMemoryCommand command)
@@ -66,5 +67,10 @@ public class Memories : EndpointGroupBase
     {
         await sender.Send(command);
         return Results.NoContent();
+    }
+
+    public Task<ExtractStoryLinkByIdDto> GetStoryLinksById(ISender sender, int id)
+    {
+        return sender.Send(new ExtractStoryLinkByIdQuery() { Id = id });
     }
 }

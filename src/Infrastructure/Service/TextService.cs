@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Rihal.ReelRise.Application.Common.Interfaces;
 
 namespace Rihal.ReelRise.Infrastructure.Service;
-public class TextService
+public class TextService : ITextService
 {
     public List<string> ExtractUrls(string text)
     {

@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace Rihal.ReelRise.Application.Common.Interfaces;
 public interface ITextService
 {
-
+    List<string> ExtractUrls(string text);
 }
