@@ -17,7 +17,22 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = string.Empty;
+
+        if (IsRunningInDocker())
+        {
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            var dbUsername = Environment.GetEnvironmentVariable("DB_USERNAME");
+
+            //connectionString = $"Host={dbHost};Port=5432;Username={dbUsername};Password={dbPassword};Database={dbName};Pooling=true;";
+            connectionString = $"Host=localhost;Port=5432;Username=postgres;Password=123;Database=ReelRise1;Pooling=true;";
+        }
+        else
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
 
         Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
 
@@ -57,5 +72,13 @@ public static class DependencyInjection
         services.AddScoped<ITextService, TextService>();
 
         return services;
+    }
+
+    private static bool IsRunningInDocker()
+    {
+        var isDockerCGroup = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DB_HOST"));
+        var isDockerFilePresent = System.IO.File.Exists("/.dockerenv");
+
+        return isDockerCGroup || isDockerFilePresent;
     }
 }
