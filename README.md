@@ -3,6 +3,8 @@
 
 This Repository is related to the Rihal Backend Challenge, where I put my server-side development code.
 
+Rihal Backend Challenge (https://github.com/rihal-om/rihal-codestacker/tree/main)
+
 ### Intro
 
 First of all, I want to say my sincere gratitude goes out to the **Rihal team** for developing and expanding software engineering knowledge and culture. In the tech community, your efforts foster growth and learning.
