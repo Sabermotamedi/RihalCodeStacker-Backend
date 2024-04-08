@@ -1,9 +1,7 @@
-﻿using System.Data;
-using Rihal.ReelRise.Application.Movies.Queries;
+﻿using Rihal.ReelRise.Application.Movies.Queries;
 using Rihal.ReelRise.Domain.Entities;
-using Rihal.ReelRise.Domain.ValueObjects;
 
-namespace Rihal.ReelRise.Application.FunctionalTests.TodoLists.Queries;
+namespace Rihal.ReelRise.Application.FunctionalTests.Movies.Queries;
 
 using static Testing;
 

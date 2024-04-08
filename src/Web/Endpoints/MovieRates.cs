@@ -13,33 +13,15 @@ public class MovieRates : EndpointGroupBase
             .MapGet(GetTopFiveByCurrentUser, "GetTopFiveByCurrentUser")
             .MapPost(CreateMovieRate);
     }
-
-    //public Task<PaginatedList<TodoItemBriefDto>> GetTodoItemsWithPagination(ISender sender, [AsParameters] GetTodoItemsWithPaginationQuery query)
-    //{
-    //   return sender.Send(query);
-    //}
-
+      
     public Task<int> CreateMovieRate(ISender sender, CreateMovieRateCommand command)
     {
         return sender.Send(command);
     }
-
 
     public async Task<List<GetTopFiveByCurrentUserDto>> GetTopFiveByCurrentUser(ISender sender)
     {
         return await sender.Send(new GetTopFiveByCurrentUserQuery());
     }
 
-    //public async Task<IResult> UpdateTodoItemDetail(ISender sender, int id, UpdateTodoItemDetailCommand command)
-    //{
-    //    if (id != command.Id) return Results.BadRequest();
-    //    await sender.Send(command);
-    //    return Results.NoContent();
-    //}
-
-    //public async Task<IResult> DeleteTodoItem(ISender sender, int id)
-    //{
-    //    await sender.Send(new DeleteTodoItemCommand(id));
-    //    return Results.NoContent();
-    //}
 }

@@ -1,7 +1,4 @@
-﻿using System.Data;
-using Rihal.ReelRise.Application.Movies.Queries;
-using Rihal.ReelRise.Domain.Entities;
-using Rihal.ReelRise.Domain.ValueObjects;
+﻿using Rihal.ReelRise.Application.Movies.Queries;
 
 namespace Rihal.ReelRise.Application.FunctionalTests.Memories.Queries;
 
