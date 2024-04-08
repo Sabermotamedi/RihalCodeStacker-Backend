@@ -1,10 +1,7 @@
-﻿using FluentValidation.TestHelper;
-using Microsoft.AspNetCore.Http;
-using Rihal.ReelRise.Application.Common.Exceptions;
+﻿using Rihal.ReelRise.Application.Common.Exceptions;
 using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
 using Rihal.ReelRise.Application.MovieRates.Commands.UpdateMemory;
 using Rihal.ReelRise.Application.Movies.Queries;
-using Rihal.ReelRise.Application.TodoLists.Commands.CreateTodoList;
 
 namespace Rihal.ReelRise.Application.FunctionalTests.MovieRates.Commands;
 using static Testing;

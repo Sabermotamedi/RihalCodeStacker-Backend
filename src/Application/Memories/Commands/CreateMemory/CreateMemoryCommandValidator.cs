@@ -1,9 +1,7 @@
-﻿using FluentValidation;
-using Rihal.ReelRise.Application.Common.Interfaces;
+﻿using Rihal.ReelRise.Application.Common.Interfaces;
 using Rihal.ReelRise.Application.MovieRates.Commands.CreateMemory;
-using Rihal.ReelRise.Application.MovieRates.Commands.CreateMovieRate;
 
-namespace Rihal.ReelRise.Application.TodoLists.Commands.CreateTodoList;
+namespace Rihal.ReelRise.Application.Memories.Commands.CreateMemory;
 
 public class CreateMemoryCommandValidator : AbstractValidator<CreateMemoryCommand>
 {

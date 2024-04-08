@@ -1,8 +1,6 @@
-﻿using FluentValidation.TestHelper;
-using Rihal.ReelRise.Application.Common.Exceptions;
+﻿using Rihal.ReelRise.Application.Common.Exceptions;
 using Rihal.ReelRise.Application.MovieRates.Commands.CreateMovieRate;
 using Rihal.ReelRise.Application.Movies.Queries;
-using Rihal.ReelRise.Application.TodoLists.Commands.CreateTodoList;
 
 namespace Rihal.ReelRise.Application.FunctionalTests.MovieRates.Commands;
 using static Testing;
