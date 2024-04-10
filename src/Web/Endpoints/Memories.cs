@@ -12,15 +12,16 @@ public class Memories : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization()
-            .DisableAntiforgery()
-            .MapGet(GetMemoryById, "{id}")
-            .MapGet(GetMemoryPhotoById, "photo/{id}")
-            .MapPut(UpdateMemory, "{id}")
-            .MapPost(CreateMemory)
-            .MapDelete(DeleteMemory, "{id}")
-            .MapPost(DeleteOrDeleteMemoryPhoto, "DeleteAndDelete")
-            .MapPost(GetStoryLinksById, "urls/{id}");
+           .RequireAuthorization()
+           .DisableAntiforgery()
+           .MapDelete(DeleteMemory, "{id}")
+           .MapPost(CreateMemory)
+           .MapPost(DeleteOrDeleteMemoryPhoto, "DeleteAndDelete")
+           .MapPost(GetStoryLinksById, "urls/{id}")
+           .MapGet(GetAllMemory)
+           .MapGet(GetMemoryById, "{id}")
+           .MapGet(GetMemoryPhotoById, "photo/{id}")
+           .MapPut(UpdateMemory, "{id}");
     }
 
     public Task<int> CreateMemory(ISender sender, [FromForm] IFormFileCollection photos, [FromForm] CreateMemoryCommand command)
