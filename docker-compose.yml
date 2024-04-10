@@ -1,8 +1,48 @@
-version: '3.4'
+version: '3.8'
+
+networks:
+  rihalnetwork:
 
 services:
+  db:
+    container_name: local_pgdb
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password@12345#
+      POSTGRES_DB: pg
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+    networks:
+      - rihalnetwork
+
   web:
+    container_name: rihalreel-app
     image: ${DOCKER_REGISTRY-}web
     build:
       context: .
-      dockerfile: src/Web/Dockerfile
+      dockerfile: src\Web\Dockerfile
+    ports:
+      - "8080:8080"  
+      - "8081:8081"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=ReelRise
+      - DB_PASSWORD=password@12345#
+      - DB_USERNAME=user-name
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    networks:
+      - rihalnetwork
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+ 
+volumes:
+  local_pgdata:
