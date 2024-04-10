@@ -22,12 +22,12 @@ public static class DependencyInjection
         if (IsRunningInDocker())
         {
             var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
             var dbName = Environment.GetEnvironmentVariable("DB_NAME");
             var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
             var dbUsername = Environment.GetEnvironmentVariable("DB_USERNAME");
 
-            //connectionString = $"Host={dbHost};Port=5432;Username={dbUsername};Password={dbPassword};Database={dbName};Pooling=true;";
-            connectionString = $"Host=localhost;Port=5432;Username=postgres;Password=123;Database=ReelRise1;Pooling=true;";
+            connectionString = $"Host={dbHost};Port=5432;Username={dbUsername};Password={dbPassword};Database={dbName};Pooling=true;";
         }
         else
         {
