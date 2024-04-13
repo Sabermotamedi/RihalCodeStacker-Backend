@@ -54,7 +54,8 @@ public class ApplicationDbContextInitialiser
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while initialising the database.");
-            throw;
+            string err = ex.Message + " ----->> " + _context.Database.GetConnectionString() + " ---- ";
+            throw new Exception(err);
         }
     }
 

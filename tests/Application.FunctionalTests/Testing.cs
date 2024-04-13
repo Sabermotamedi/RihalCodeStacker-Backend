@@ -23,7 +23,7 @@ public partial class Testing
 
         _factory = new CustomWebApplicationFactory(_database.GetConnection());
         try
-        {           
+        {
             _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
         }
         catch (Exception ex)
@@ -72,6 +72,13 @@ public partial class Testing
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
+        var existingUser = await userManager.FindByNameAsync(userName);
+        if (existingUser != null)
+        {
+            _userId = existingUser.Id;
+            return _userId;
+        }
+
         var user = new ApplicationUser { UserName = userName, Email = userName };
 
         var result = await userManager.CreateAsync(user, password);
@@ -106,7 +113,7 @@ public partial class Testing
         {
             await _database.ResetAsync();
         }
-        catch (Exception) 
+        catch (Exception)
         {
         }
 
