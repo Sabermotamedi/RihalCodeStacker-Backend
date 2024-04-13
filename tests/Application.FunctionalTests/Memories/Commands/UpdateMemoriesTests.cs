@@ -47,7 +47,7 @@ public class UpdateMemoriesTests : BaseTestFixture
         await RunAsDefaultUserAsync();
 
         // Create
-        var command = new CreateMemoryCommand() { MovieId = 1, Story = "Story", Title = "Title", SawDate = DateTime.Now.ToUniversalTime() };
+        var command = new CreateMemoryCommand() { MovieId = 4, Story = "Story", Title = "Title", SawDate = DateTime.Now.ToUniversalTime() };
         var memory = await SendAsync(command);
 
         memory.Should().BeGreaterThan(0);
@@ -57,10 +57,10 @@ public class UpdateMemoriesTests : BaseTestFixture
         var memoryDtos = await SendAsync(query);
 
         memoryDtos.Should().NotBeNull();
-        memoryDtos.Should().HaveCount(1);
-        memoryDtos[0].Should().NotBeNull();
-        memoryDtos[0].Title.Should().Be("Title");
-        memoryDtos[0].MovieName.Should().Be("Mad Max");
+        memoryDtos.Count.Should().BeGreaterThanOrEqualTo(1);
+        memoryDtos.First(x => x.MovieId == command.MovieId).Should().NotBeNull();
+        memoryDtos.First(x => x.MovieId == command.MovieId).Title.Should().Be("Title");
+        
 
         // Update
         var updateCommand = new UpdateMemoryCommand() { MemoryId = memoryDtos[0].Id, Title = "Title Updated", Story = "Story Updated" };

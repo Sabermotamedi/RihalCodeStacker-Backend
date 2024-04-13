@@ -83,13 +83,13 @@ public class CreateMovieRateTests : BaseTestFixture
 
         await SendAsync(new CreateMovieRateCommand
         {
-            MovieId = 1,
+            MovieId = 10,
             Rate = 5
         });
 
         var command = new CreateMovieRateCommand
         {
-            MovieId = 1,
+            MovieId = 10,
             Rate = 6
         };
 

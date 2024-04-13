@@ -4,14 +4,14 @@ networks:
   rihalnetwork:
 
 services:
-  db:
-    container_name: local_pgdb
+  pgdb:
+    container_name: pgdb
     image: postgres:latest
     restart: always
     ports:
       - "5431:5432"
     environment:
-      POSTGRES_USER: admin
+      POSTGRES_USER: adminuser
       POSTGRES_PASSWORD: password@12345#
       POSTGRES_DB: pg
     volumes:
@@ -29,12 +29,12 @@ services:
       - "8080:8080"  
       - "8081:8081"
     depends_on:
-      - db
+      - pgdb
     environment:
-      - DB_HOST=db
-      - DB_NAME=ReelRise
+      - DB_HOST=pgdb
+      - DB_USERNAME=adminuser
       - DB_PASSWORD=password@12345#
-      - DB_USERNAME=user-name
+      - DB_NAME=ReelRise
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
